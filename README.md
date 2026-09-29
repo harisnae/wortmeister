@@ -13,7 +13,6 @@ revealed letter by letter — every miss costs a try.
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)
 ![Hosting](https://img.shields.io/badge/hosted%20on-GitHub%20Pages-181717?logo=github)
 
-<div align="center">
 
 🎮 **[▶ Play it live](https://harisnae.github.io/wortmeister/)**
 
