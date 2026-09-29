@@ -55,6 +55,7 @@
   --ink:     #1C1712;              /* near-black, slightly warm                       */
   --ink-70:  rgba(28,23,18,.72);   /* 70% ink — secondary text                        */
   --ink-45:  rgba(28,23,18,.45);   /* 45% ink — muted footer text                     */
+  --ink-30:  rgba(28,23,18,.30);   /*  ADDED THIS LINE */
   --ink-25:  rgba(28,23,18,.25);   /* 25% ink — hairlines, disabled shadows           */
   --ink-12:  rgba(28,23,18,.12);   /* 12% ink — faintest tint (currently unused)      */
 
@@ -311,13 +312,20 @@ button{ font-family: inherit; color: inherit; }
 /* Intro paragraph under the demo.
    max-width:44ch caps line length at ~44 characters — a
    comfortable measure for reading. */
-.lede{
+
+#screen-start .lede{
   margin-top:20px;
+  margin-inline: auto;
   max-width:44ch;
   font-size: clamp(14.5px, 2.6vw, 16.5px);
   line-height:1.55;
   color:var(--ink-70);
   font-weight:500;
+  text-align: center !important;  /* Force override */
+  letter-spacing: 0.02em;
+  padding: 0 10px;
+  hyphens: auto;
+  -webkit-hyphens: auto;
 }
 
 /* Difficulty-picker block. */
@@ -1051,6 +1059,11 @@ button{ font-family: inherit; color: inherit; }
   transition: transform .08s, box-shadow .08s, background .15s, color .15s;
   border-radius:0;     /* square corners — part of the aesthetic */
   padding:0;
+}
+
+/* Preserve ß character on keyboard (prevent uppercase conversion) */
+.key[data-key="ß"]{
+  text-transform: none;
 }
 
 /* Pressed key: physically "pressed" into the page.

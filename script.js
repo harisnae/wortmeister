@@ -17,13 +17,13 @@
 // instead of silently creating a global). This helps catch bugs early.
 'use strict';
 
-/* ---------- Word data: frequent German nouns (A–Z only, no umlauts/ß) ---------- */
+/* ---------- Word data: frequent German nouns (A–Z only) ---------- */
 // WORDS is a lookup table keyed by word length. Each key (5, 6, 7, 8, 13)
 // holds an array of word entries used by the game:
 //   w = the German word (uppercase, shown on the tiles)
 //   m = the English meaning/translation revealed after the round ends
 
-/* ---------- Word data: frequent German nouns (A–Z only, no umlauts/ß) ---------- */
+/* ---------- Word data: frequent German nouns (A–Z only)// ---------- */
 const WORDS = {
   5: [
     { w:'APFEL', m:'apple' }, { w:'TISCH', m:'table' }, { w:'KATZE', m:'cat' },
@@ -46,42 +46,156 @@ const WORDS = {
     { w:'MÄUSE', m:'mice' }, { w:'HUNDE', m:'dogs' }, { w:'SÜSSE', m:'sweet' }, { w:'BITTE', m:'please' },
     { w:'DANKE', m:'thanks' }, { w:'GERNE', m:'gladly' }, { w:'STARK', m:'strong' }, { w:'RECHT', m:'right/law' },
     { w:'WÄRME', m:'warmth' }, { w:'KÄLTE', m:'coldness' }, { w:'STILL', m:'quiet' }, { w:'SÜDEN', m:'south' },
-    { w:'OSTEN', m:'east' }, { w:'GRUND', m:'ground' }, { w:'STÜCK', m:'piece' }, { w:'WINDY', m:'windy' },
-    { w:'SENSE', m:'scythe' }, { w:'KUNDE', m:'customer' }, { w:'STERN', m:'star' }, { w:'WAGEN', m:'car/wagon' },
-    { w:'SORGE', m:'worry' }, { w:'STADT', m:'city' }, { w:'WUNSCH', m:'wish' }, { w:'SCHEIN', m:'glow/bill' },
-    { w:'STROM', m:'current/electricity' }, { w:'SÜSSE', m:'sweetness' }
+    { w:'OSTEN', m:'east' }, { w:'GRUND', m:'ground' }, { w:'STÜCK', m:'piece' },
+    { w:'SENSE', m:'scythe' }, { w:'KUNDE', m:'customer' }, { w:'WAGEN', m:'car/wagon' },
+    { w:'SORGE', m:'worry' },
+    { w:'STROM', m:'current/electricity' }, { w:'SÜSSE', m:'sweetness' },
+    { w:'BIRNE', m:'pear' }, { w:'ERBSE', m:'pea' }, { w:'BOHNE', m:'bean' },
+    { w:'GURKE', m:'cucumber' }, { w:'SALAT', m:'salad; lettuce' }, { w:'SUPPE', m:'soup' },
+    { w:'WURST', m:'sausage' }, { w:'NUDEL', m:'noodle' }, { w:'TORTE', m:'cake; tart' },
+    { w:'HONIG', m:'honey' }, { w:'TIGER', m:'tiger' }, { w:'ZEBRA', m:'zebra' },
+    { w:'KAMEL', m:'camel' }, { w:'SCHAF', m:'sheep' }, { w:'ZIEGE', m:'goat' },
+    { w:'STIER', m:'bull' }, { w:'FUCHS', m:'fox' }, { w:'ADLER', m:'eagle' },
+    { w:'TAUBE', m:'pigeon; dove' }, { w:'BIENE', m:'bee' }, { w:'WESPE', m:'wasp' },
+    { w:'KÄFER', m:'beetle' }, { w:'BAUCH', m:'belly' }, { w:'STIRN', m:'forehead' },
+    { w:'WANGE', m:'cheek' }, { w:'ZUNGE', m:'tongue' }, { w:'LIPPE', m:'lip' },
+    { w:'MAGEN', m:'stomach' }, { w:'LEBER', m:'liver' }, { w:'NIERE', m:'kidney' },
+    { w:'DECKE', m:'ceiling; blanket' }, { w:'REGAL', m:'shelf' }, { w:'BESEN', m:'broom' },
+    { w:'EIMER', m:'bucket' }, { w:'KANNE', m:'pot; jug' }, { w:'SEIFE', m:'soap' },
+    { w:'NADEL', m:'needle' }, { w:'FADEN', m:'thread' }, { w:'KNOPF', m:'button' },
+    { w:'KETTE', m:'chain' }, { w:'WIESE', m:'meadow' }, { w:'ACKER', m:'field' },
+    { w:'STEIN', m:'stone' }, { w:'HÜGEL', m:'hill' }, { w:'KÜSTE', m:'coast' },
+    { w:'WELLE', m:'wave' }, { w:'NEBEL', m:'fog' }, { w:'RAUCH', m:'smoke' },
+    { w:'ZWEIG', m:'branch' }, { w:'BLATT', m:'leaf' }, { w:'ONKEL', m:'uncle' },
+    { w:'TANTE', m:'aunt' }, { w:'KÖNIG', m:'king' }, { w:'BAUER', m:'farmer' },
+    { w:'JÄGER', m:'hunter' }, { w:'MALER', m:'painter' }, { w:'JACKE', m:'jacket' },
+    { w:'BLUSE', m:'blouse' }, { w:'ANZUG', m:'suit' }, { w:'MÜTZE', m:'cap' },
+    { w:'LEISE', m:'quiet; soft' }, { w:'RUHIG', m:'calm' }, { w:'KRANK', m:'sick' },
+    { w:'REICH', m:'rich' }, { w:'TEUER', m:'expensive' }, { w:'HEISS', m:'hot' },
+    { w:'OFFEN', m:'open' }, { w:'JETZT', m:'now' }, { w:'HABEN', m:'to have' },
+    { w:'GEHEN', m:'to go' }, { w:'ESSEN', m:'to eat; food' }, { w:'LESEN', m:'to read' },
+    { w:'SEHEN', m:'to see' }, { w:'HÖREN', m:'to hear' }, { w:'MUSIK', m:'music' },
+    { w:'LIEBE', m:'love' }, { w:'TRAUM', m:'dream' }, { w:'PREIS', m:'price' },
+    { w:'MÜNZE', m:'coin' }, { w:'PUNKT', m:'point; dot' }
   ],
   6: [
-    { w:'WASSER', m:'water' }, { w:'ZIMMER', m:'room' }, { w:'SCHULE', m:'school' },
-    { w:'LEHRER', m:'teacher' }, { w:'KLASSE', m:'class; classroom' }, { w:'MUTTER', m:'mother' },
-    { w:'BRUDER', m:'brother' }, { w:'MENSCH', m:'human; person' }, { w:'FREUND', m:'friend' },
-    { w:'GARTEN', m:'garden' }, { w:'PAPIER', m:'paper' }, { w:'BILDER', m:'pictures' },
-    { w:'FINGER', m:'finger' }, { w:'STIMME', m:'voice' }, { w:'KINDER', m:'children' },
-    { w:'FRAUEN', m:'women' }, { w:'ARBEIT', m:'work' }, { w:'TREPPE', m:'stairs' },
-    { w:'KELLER', m:'cellar; basement' }, { w:'SCHIFF', m:'ship' }, { w:'STRAND', m:'beach' },
-    { w:'WINTER', m:'winter' }, { w:'SOMMER', m:'summer' }, { w:'FLAMME', m:'flame' },
-    { w:'STUNDE', m:'hour' }, { w:'MINUTE', m:'minute' }, { w:'MORGEN', m:'morning; tomorrow' },
-    { w:'MITTAG', m:'midday; noon' }, { w:'ANFANG', m:'beginning' }, { w:'KLEINE', m:'small one' },
-    { w:'KIRCHE', m:'church' }, { w:'TELLER', m:'plate' }, { w:'MESSER', m:'knife' },
-    { w:'PFANNE', m:'pan' }, { w:'PINSEL', m:'brush' }, { w:'MUSEUM', m:'museum' },
-    { w:'HIMMEL', m:'sky; heaven' }, { w:'DONNER', m:'thunder' }, { w:'NUMMER', m:'number' },
-    { w:'FERIEN', m:'vacation; holidays' }, { w:'SIEGER', m:'winner' }, { w:'PUNKTE', m:'points' },
-    { w:'KÜCHEN', m:'kitchens' }, { w:'FENSTER', m:'window' }, { w:'SPIEGE', m:'mirror' },
-    { w:'TÜRMEN', m:'towers' }, { w:'STRASSE', m:'street' }, { w:'DORFES', m:'village' },
-    { w:'WÄLDER', m:'forests' }, { w:'BERGE', m:'mountains' }, { w:'FLUGEN', m:'flights' },
-    { w:'REISEN', m:'travels' }, { w:'KÖNIGE', m:'kings' }, { w:'PRINZE', m:'princes' },
-    { w:'SÜSSEN', m:'sweet' }, { w:'BITTER', m:'bitter' }, { w:'STARKER', m:'strong' },
-    { w:'SCHWAC', m:'weak' }, { w:'GEWALT', m:'violence; force' }, { w:'GESICHT', m:'face' },
-    { w:'SCHULTER', m:'shoulder' }, { w:'KNIEEN', m:'knees' }, { w:'HÄNDEN', m:'hands' },
-    { w:'FÜSSEN', m:'feet' }, { w:'KÖRPER', m:'body' }, { w:'GEHIRN', m:'brain' }, { w:'HERZEN', m:'hearts' },
-    { w:'BLUTEN', m:'to bleed' }, { w:'ATEMEN', m:'to breathe' }, { w:'SCHLAF', m:'sleep' },
-    { w:'TRAUME', m:'dreams' }, { w:'GLÜCKE', m:'luck' }, { w:'SORGE', m:'worry' }, { w:'WUNSCH', m:'wish' },
-    { w:'GEFÜHL', m:'feeling' }, { w:'SPRUCH', m:'saying' }, { w:'SÄTZE', m:'sentences' }, { w:'BUCHST', m:'letter (alphabet)' },
-    { w:'STIFTE', m:'pens' }, { w:'HEFTE', m:'notebooks' }, { w:'TAFELN', m:'blackboards' }, { w:'STÜHLE', m:'chairs' },
-    { w:'TISCHE', m:'tables' }, { w:'LAMPE', m:'lamp' }
+{ w:'WASSER', m:'water' }, { w:'ZIMMER', m:'room' }, { w:'SCHULE', m:'school' }, { w:'LEHRER', m:'teacher' },
+{ w:'KLASSE', m:'class; classroom' }, { w:'MUTTER', m:'mother' }, { w:'BRUDER', m:'brother' }, { w:'MENSCH', m:'human; person' },
+{ w:'FREUND', m:'friend' }, { w:'GARTEN', m:'garden' }, { w:'PAPIER', m:'paper' }, { w:'BILDER', m:'pictures' },
+{ w:'FINGER', m:'finger' }, { w:'STIMME', m:'voice' }, { w:'KINDER', m:'children' }, { w:'FRAUEN', m:'women' },
+{ w:'ARBEIT', m:'work' }, { w:'TREPPE', m:'stairs' }, { w:'KELLER', m:'cellar; basement' }, { w:'SCHIFF', m:'ship' },
+{ w:'STRAND', m:'beach' }, { w:'WINTER', m:'winter' }, { w:'SOMMER', m:'summer' }, { w:'FLAMME', m:'flame' },
+{ w:'STUNDE', m:'hour' }, { w:'MINUTE', m:'minute' }, { w:'MORGEN', m:'morning; tomorrow' }, { w:'MITTAG', m:'midday; noon' },
+{ w:'ANFANG', m:'beginning' }, { w:'KLEINE', m:'small one' }, { w:'KIRCHE', m:'church' }, { w:'TELLER', m:'plate' },
+{ w:'MESSER', m:'knife' }, { w:'PFANNE', m:'pan' }, { w:'PINSEL', m:'brush' }, { w:'MUSEUM', m:'museum' },
+{ w:'HIMMEL', m:'sky; heaven' }, { w:'DONNER', m:'thunder' }, { w:'NUMMER', m:'number' }, { w:'FERIEN', m:'vacation; holidays' },
+{ w:'SIEGER', m:'winner' }, { w:'PUNKTE', m:'points' }, { w:'KÜCHEN', m:'kitchens' },
+{ w:'TÜRMEN', m:'towers' },
+{ w:'WÄLDER', m:'forests' }, { w:'REISEN', m:'travels' },
+{ w:'KÖNIGE', m:'kings' }, { w:'PRINZE', m:'princes' }, { w:'SÜSSEN', m:'sweet' }, { w:'BITTER', m:'bitter' },
+{ w:'GEWALT', m:'violence; force' },
+{ w:'KNIEEN', m:'knees' }, { w:'HÄNDEN', m:'hands' }, { w:'FÜSSEN', m:'feet' },
+{ w:'KÖRPER', m:'body' }, { w:'GEHIRN', m:'brain' }, { w:'HERZEN', m:'hearts' }, { w:'BLUTEN', m:'to bleed' },
+{ w:'ATEMEN', m:'to breathe' }, { w:'SCHLAF', m:'sleep' }, { w:'GLÜCKE', m:'luck' },
+{ w:'WUNSCH', m:'wish' }, { w:'GEFÜHL', m:'feeling' }, { w:'SPRUCH', m:'saying' },
+{ w:'STIFTE', m:'pens' },
+{ w:'TAFELN', m:'blackboards' }, { w:'STÜHLE', m:'chairs' }, { w:'TISCHE', m:'tables' },
+{ w:'BUTTER', m:'butter' }, { w:'ZUCKER', m:'sugar' }, { w:'BANANE', m:'banana' }, { w:'MELONE', m:'melon' },
+{ w:'ORANGE', m:'orange' }, { w:'ANANAS', m:'pineapple' }, { w:'TOMATE', m:'tomato' }, { w:'SPINAT', m:'spinach' },
+{ w:'GEMÜSE', m:'vegetables' }, { w:'FRUCHT', m:'fruit' }, { w:'BEEREN', m:'berries' }, { w:'NUDELN', m:'noodles' },
+{ w:'ERBSEN', m:'peas' }, { w:'BOHNEN', m:'beans' }, { w:'KAFFEE', m:'coffee' }, { w:'KUCHEN', m:'cakes' },
+{ w:'WAFFEL', m:'waffle' }, { w:'BREZEL', m:'pretzel' }, { w:'BONBON', m:'candy' }, { w:'HERING', m:'herring' },
+{ w:'KRABBE', m:'crab' }, { w:'LACHSE', m:'salmon' }, { w:'HECHTE', m:'pike' }, { w:'BARSCH', m:'bass' },
+{ w:'DORADE', m:'dorade' }, { w:'KAVIAR', m:'caviar' }, { w:'PUNSCH', m:'punch (drink)' }, { w:'RADLER', m:'radler (beer-lemonade mix)' },
+{ w:'WHISKY', m:'whisky' }, { w:'KOGNAC', m:'cognac' }, { w:'HIRSCH', m:'deer' }, { w:'PFERDE', m:'horses' },
+{ w:'SCHAFE', m:'sheep' }, { w:'ZIEGEN', m:'goats' }, { w:'KAMELE', m:'camels' }, { w:'PAVIAN', m:'pavian (monkey)' },
+{ w:'DACHSE', m:'badger' }, { w:'MARDER', m:'marten' }, { w:'WIESEL', m:'weasel' }, { w:'GEPARD', m:'cheetah' },
+{ w:'JAGUAR', m:'jaguar' }, { w:'KOYOTE', m:'coyote' }, { w:'AMEISE', m:'ant' }, { w:'BIENEN', m:'bees' },
+{ w:'WESPEN', m:'wasps' }, { w:'HUMMEL', m:'bumblebee' }, { w:'MOTTEN', m:'moths' }, { w:'MÜCKEN', m:'mosquitoes' },
+{ w:'FLIEGE', m:'fly' }, { w:'BREMSE', m:'brake' }, { w:'GRILLE', m:'grill' }, { w:'SPINNE', m:'spider' },
+{ w:'WÜRMER', m:'worms' }, { w:'RAUPEN', m:'caterpillars' }, { w:'KRÖTEN', m:'frogs' }, { w:'FROSCH', m:'frog' },
+{ w:'MOLCHE', m:'newts' }, { w:'ECHSEN', m:'lizards' }, { w:'PYTHON', m:'python' }, { w:'KAIMAN', m:'caiman' },
+{ w:'DRACHE', m:'dragon' }, { w:'FALKEN', m:'falcons' }, { w:'STORCH', m:'stork' }, { w:'REIHER', m:'heron' },
+{ w:'KAKADU', m:'kakadu' }, { w:'ELSTER', m:'starling' }, { w:'SPECHT', m:'woodpecker' }, { w:'FASANE', m:'peafowl' },
+{ w:'HÜHNER', m:'chickens' }, { w:'MÜNDER', m:'mouths' }, { w:'LIPPEN', m:'lips' }, { w:'WANGEN', m:'cheeks' },
+{ w:'NACKEN', m:'neck' }, { w:'DAUMEN', m:'thumbs' }, { w:'BRÜSTE', m:'breasts' }, { w:'BÄUCHE', m:'belly' },
+{ w:'RÜCKEN', m:'back' }, { w:'HÜFTEN', m:'hips' }, { w:'SOHLEN', m:'soles (of feet)' }, { w:'MUSKEL', m:'muscle' },
+{ w:'GELENK', m:'joint' }, { w:'SEHNEN', m:'tendons' }, { w:'LUNGEN', m:'lungs' }, { w:'LEBERN', m:'liver' },
+{ w:'NIEREN', m:'kidneys' }, { w:'NERVEN', m:'nerves' }, { w:'ZELLEN', m:'cells' }, { w:'GEWEBE', m:'tissue' },
+{ w:'ORGANE', m:'organs' }, { w:'PROFIL', m:'profile' }, { w:'MANTEL', m:'coat' }, { w:'JACKEN', m:'jackets' },
+{ w:'HEMDEN', m:'shirts' }, { w:'BLUSEN', m:'blouses' }, { w:'ANZÜGE', m:'suits' }, { w:'KOSTÜM', m:'costume' },
+{ w:'SOCKEN', m:'socks' }, { w:'MÜTZEN', m:'hats' }, { w:'TÜCHER', m:'handkerchiefs' }, { w:'GÜRTEL', m:'belt' },
+{ w:'KNÖPFE', m:'buttons' }, { w:'TASCHE', m:'bag' }, { w:'KOFFER', m:'suitcase' }, { w:'BRILLE', m:'glasses' },
+{ w:'KETTEN', m:'chains' }, { w:'PERLEN', m:'pearls' }, { w:'SILBER', m:'silver' }, { w:'BRONZE', m:'bronze' },
+{ w:'KUPFER', m:'copper' }, { w:'NICKEL', m:'nickel' }, { w:'PLATIN', m:'platinum' }, { w:'SESSEL', m:'chair' },
+{ w:'BETTEN', m:'beds' }, { w:'KISSEN', m:'pillows' }, { w:'DECKEN', m:'blankets' }, { w:'FLUREN', m:'hallways' },
+{ w:'DUSCHE', m:'shower' }, { w:'ROHREN', m:'pipes' }, { w:'HAHNEN', m:'roosters' }, { w:'ABFALL', m:'trash' },
+{ w:'KLECKS', m:'splatter' }, { w:'KRÜMEL', m:'crumbs' }, { w:'LAMPEN', m:'lamps' }, { w:'FACKEL', m:'torch' },
+{ w:'BIRNEN', m:'pears' }, { w:'GLÄSER', m:'glasses (drinking)' }, { w:'TASSEN', m:'cups' }, { w:'TÖPFEN', m:'pots' },
+{ w:'KANNEN', m:'jugs' }, { w:'KRÜGEN', m:'pitchers' }, { w:'SCHALE', m:'bowl' }, { w:'NÄPFEN', m:'bowls (for animals)' },
+{ w:'LÖFFEL', m:'spoon' }, { w:'GABELN', m:'forks' }, { w:'HERDEN', m:'herds' }, { w:'LÜFTER', m:'fan' },
+{ w:'KAMINE', m:'fireplaces' }, { w:'TRUHEN', m:'trunks' }, { w:'REGALE', m:'shelves' }, { w:'HOCKER', m:'stool' },
+{ w:'MATTEN', m:'mats' }, { w:'LÄUFER', m:'runner (of a carpet)' }, { w:'DÄCHER', m:'roofs' }, { w:'WÄNDEN', m:'walls' },
+{ w:'MAUERN', m:'walls (of buildings)' }, { w:'RIEGEN', m:'rows' }, { w:'GITTER', m:'grille' }, { w:'ZÄUNEN', m:'fences' },
+{ w:'HECKEN', m:'hedges' }, { w:'STANGE', m:'pole' }, { w:'STÄBEN', m:'sticks' }, { w:'LATTEN', m:'laths' },
+{ w:'PLATTE', m:'plate (flat object)' }, { w:'FOLIEN', m:'films' }, { w:'KARTON', m:'cardboard box' }, { w:'PAPPEN', m:'cardboard' },
+{ w:'LEIMEN', m:'glue' }, { w:'KLEBER', m:'glue' }, { w:'KITTEN', m:'putty' }, { w:'HAMMER', m:'hammer' },
+{ w:'HÄMMER', m:'hammer' }, { w:'ZANGEN', m:'pliers' }, { w:'BOLZEN', m:'bolts' }, { w:'NÄGELN', m:'nails' },
+{ w:'DÜBELN', m:'anchors (for walls)' }, { w:'BOHRER', m:'drill' }, { w:'FEILEN', m:'files' }, { w:'BEILEN', m:'axes' },
+{ w:'SPITZE', m:'tip' }, { w:'KLINGE', m:'blade' }, { w:'GRIFFE', m:'handle' }, { w:'HENKEL', m:'handle' },
+{ w:'KNÄUFE', m:'knobs' }, { w:'GEIGEN', m:'violin' }, { w:'LAUTEN', m:'lute' }, { w:'HARFEN', m:'harp' },
+{ w:'FLÜGEL', m:'piano' }, { w:'ORGELN', m:'organ' }, { w:'ZITHER', m:'zither' }, { w:'LEIERN', m:'to sing' },
+{ w:'HÖRNER', m:'horns' }, { w:'FLÖTEN', m:'flutes' }, { w:'FAGOTT', m:'bagpipe' }, { w:'KLÄNGE', m:'sound' },
+{ w:'AKKORD', m:'chord' }, { w:'TAKTEN', m:'beats' }, { w:'TÄNZEN', m:'to dance' }, { w:'CHÖREN', m:'to listen' },
+{ w:'GRUPPE', m:'group' }, { w:'SÄNGER', m:'singer' }, { w:'BÜHNEN', m:'stages' }, { w:'KARTEN', m:'cards' },
+{ w:'KASSEN', m:'cash registers' }, { w:'PLÄTZE', m:'places' }, { w:'REIHEN', m:'rows' }, { w:'RÄNGEN', m:'ranks' },
+{ w:'KÜNSTE', m:'arts' }, { w:'WERKEN', m:'to work (craft)' }, { w:'SKIZZE', m:'sketch' }, { w:'MUSTER', m:'pattern' },
+{ w:'MODELL', m:'model' }, { w:'FORMEN', m:'shapes' }, { w:'FARBEN', m:'colors' }, { w:'DUNKEL', m:'dark' },
+{ w:'SCHEIN', m:'shine' }, { w:'STRAHL', m:'ray' }, { w:'GLUTEN', m:'glow' }, { w:'ASCHEN', m:'ashes' },
+{ w:'QUALME', m:'smell' }, { w:'FUNKEN', m:'to spark' }, { w:'ZÜNDER', m:'lighter' }, { w:'KERZEN', m:'candles' },
+{ w:'DOCHTE', m:'torch' }, { w:'WACHSE', m:'wax' }, { w:'BÄUMEN', m:'trees' }, { w:'ZWEIGE', m:'branches' },
+{ w:'WURZEL', m:'root' }, { w:'STÄMME', m:'trunks' }, { w:'RINDEN', m:'bark' }, { w:'GRÄSER', m:'grasses' },
+{ w:'MOOSEN', m:'moss' }, { w:'FARNEN', m:'ferns' }, { w:'NELKEN', m:'carnations' }, { w:'LILIEN', m:'lilies' },
+{ w:'KÖRNER', m:'grains' }, { w:'WEIZEN', m:'wheat' }, { w:'GERSTE', m:'barley' }, { w:'HAFERN', m:'oats' },
+{ w:'WIESEN', m:'meadows' }, { w:'FELDER', m:'fields' }, { w:'FELDEN', m:'fields' }, { w:'ACKERN', m:'fields (for crops)' },
+{ w:'SANDEN', m:'sands' }, { w:'STEINE', m:'stones' }, { w:'FELSEN', m:'rocks' }, { w:'HÜGELN', m:'hills' },
+{ w:'KLIPPE', m:'cliff' }, { w:'KÜSTEN', m:'coasts' }, { w:'WELLEN', m:'waves' }, { w:'FRÖSTE', m:'frost' },
+{ w:'HAGELN', m:'hail' }, { w:'NEBELN', m:'fog' }, { w:'DÜNSTE', m:'fumes' }, { w:'WOLKEN', m:'clouds' },
+{ w:'BLITZE', m:'lightning' }, { w:'STÜRME', m:'storms' }, { w:'WINDEN', m:'winds' }, { w:'BRISEN', m:'breezes' },
+{ w:'LÜFTEN', m:'to ventilate' }, { w:'KLIMAS', m:'climate' }, { w:'ABENDE', m:'evenings' }, { w:'NÄCHTE', m:'nights' },
+{ w:'WOCHEN', m:'weeks' }, { w:'MONATE', m:'months' }, { w:'JAHREN', m:'years' }, { w:'MOMENT', m:'moment' },
+{ w:'DAUERN', m:'duration' }, { w:'TERMIN', m:'appointment' }, { w:'VERZUG', m:'departure' }, { w:'TEMPOS', m:'tempos' },
+{ w:'WEISEN', m:'ways' }, { w:'TENNIS', m:'tennis' }, { w:'SCHACH', m:'chess' }, { w:'WÜRFEL', m:'die' },
+{ w:'SIEGEN', m:'to win' }, { w:'REGELN', m:'rules' }, { w:'SPRUNG', m:'jump' }, { w:'WÜRFEN', m:'to throw' },
+{ w:'HANTEL', m:'dumbbell' }, { w:'BÄLLEN', m:'balls' }, { w:'NETZEN', m:'to net' }, { w:'TRIKOT', m:'jersey' },
+{ w:'SCHUTZ', m:'protection' }, { w:'DOKTOR', m:'doctor' }, { w:'ÄRZTEN', m:'doctors' }, { w:'PRAXIS', m:'practice (medical)' },
+{ w:'PRAXEN', m:'practices' }, { w:'KLINIK', m:'clinic' }, { w:'PILLEN', m:'pills' }, { w:'SALBEN', m:'ointments' },
+{ w:'BESUCH', m:'visit' }, { w:'VISITE', m:'visit (medical)' }, { w:'PFLEGE', m:'nursing' }, { w:'GESUND', m:'healthy' },
+{ w:'FIEBER', m:'fever' }, { w:'WUNDEN', m:'wounds' }, { w:'NARBEN', m:'scars' }, { w:'BRÜCHE', m:'fractures' },
+{ w:'LÄNDER', m:'countries' }, { w:'NATION', m:'nation' }, { w:'VÖLKER', m:'peoples' }, { w:'BÜRGER', m:'citizens' },
+{ w:'WAHLEN', m:'to vote' }, { w:'WÄHLER', m:'voters' }, { w:'PARTEI', m:'party' }, { w:'GESETZ', m:'law' },
+{ w:'RECHTE', m:'rights' }, { w:'ANWALT', m:'lawyer' }, { w:'KLAGEN', m:'to complain' }, { w:'URTEIL', m:'judgment' },
+{ w:'STRAFE', m:'punishment' }, { w:'KNÄSTE', m:'knees' }, { w:'WACHEN', m:'to watch' }, { w:'SOLDAT', m:'soldier' },
+{ w:'ARMEEN', m:'armies' }, { w:'HEEREN', m:'armies' }, { w:'MARINE', m:'navy' }, { w:'KRIEGE', m:'wars' },
+{ w:'WAFFEN', m:'weapons' }, { w:'SPEERE', m:'spears' }, { w:'PFEILE', m:'arrows' }, { w:'SCHILD', m:'shield' },
+{ w:'HELMEN', m:'helmets' }, { w:'PANZER', m:'tank' }, { w:'KANONE', m:'cannon' }, { w:'GEWEHR', m:'rifle' },
+{ w:'KUGELN', m:'bullets' }, { w:'BOMBEN', m:'bombs' }, { w:'WELTEN', m:'worlds' }, { w:'PLANET', m:'planet' },
+{ w:'STERNE', m:'stars' }, { w:'METEOR', m:'meteor' }, { w:'MONDEN', m:'moons' }, { w:'SONNEN', m:'sun' },
+{ w:'RAKETE', m:'rocket' }, { w:'KOSMOS', m:'cosmos' }, { w:'ATOMEN', m:'atoms' }, { w:'UMWELT', m:'environment' },
+{ w:'WETTER', m:'weather' }, { w:'FLORAS', m:'flora' }, { w:'FAUNAS', m:'fauna' }, { w:'RASSEN', m:'races' },
+{ w:'SIPPEN', m:'clans' }, { w:'GEBURT', m:'birth' }, { w:'ZUFALL', m:'accident' }, { w:'ZAHLEN', m:'numbers' },
+{ w:'MENGEN', m:'amounts' }, { w:'ANZAHL', m:'quantity' }, { w:'SUMMEN', m:'sums' }, { w:'MITTEL', m:'middle' },
+{ w:'MAXIMA', m:'maxima' }, { w:'MINIMA', m:'minima' }, { w:'NULLEN', m:'zeros' }, { w:'SIEBEN', m:'seven' },
+{ w:'ZWEITE', m:'second (ordinal)' }, { w:'DRITTE', m:'third (ordinal)' }, { w:'VIERTE', m:'fourth (ordinal)' },
+{ w:'FÜNFTE', m:'fifth (ordinal)' }, { w:'SIEBTE', m:'seventh (ordinal)' }, { w:'NEUNTE', m:'ninth (ordinal)' },
+{ w:'LETZTE', m:'last (ordinal)' }, { w:'MONTAG', m:'Monday' },
+{ w:'JANUAR', m:'January' }, { w:'AUGUST', m:'August' }, { w:'NORDEN', m:'north' }, { w:'WESTEN', m:'west' },
+{ w:'RECHTS', m:'right' }, { w:'HINTEN', m:'behind' }, { w:'SOFORT', m:'immediately' }, { w:'GLEICH', m:'equal' },
+{ w:'SPÄTER', m:'later' }, { w:'FRÜHER', m:'earlier' }, { w:'DAMALS', m:'then' }, { w:'SELTEN', m:'rarely' },
+{ w:'GERADE', m:'straight' }, { w:'BISHER', m:'until now' }
   ],
   7: [
-    { w:'FENSTER', m:'window' }, { w:'ZEITUNG', m:'newspaper' }, { w:'STRASSE', m:'street' },
+    { w:'ZEITUNG', m:'newspaper' }, { w:'STRASSE', m:'street' },
     { w:'FAMILIE', m:'family' }, { w:'WOHNUNG', m:'apartment; flat' }, { w:'GESICHT', m:'face' },
     { w:'BAHNHOF', m:'train station' }, { w:'FAHRRAD', m:'bicycle' }, { w:'HEIZUNG', m:'heating' },
     { w:'SPIEGEL', m:'mirror' }, { w:'FLASCHE', m:'bottle' }, { w:'SCHRANK', m:'wardrobe; cabinet' },
@@ -93,47 +207,132 @@ const WORDS = {
     { w:'GEBÄUDE', m:'building' }, { w:'KLEIDUNG', m:'clothing' }, { w:'RECHNUNG', m:'bill' },
     { w:'GEDANKE', m:'thought' }, { w:'GEFÜHLE', m:'feelings' }, { w:'KÜHLUNG', m:'cooling' },
     { w:'SÜDWEST', m:'southwest' }, { w:'NORDOST', m:'northeast' }, { w:'SÜDWIND', m:'south wind' }, { w:'KÜSSTEN', m:'coasts' },
-     { w:'SCHÜLER', m:'pupil' }, { w:'FREUNDE', m:'friends' }, { w:'NACHBAR', m:'neighbor' }, { w:'KELLNER', m:'waiter' },
+     { w:'SCHÜLER', m:'pupil' }, { w:'NACHBAR', m:'neighbor' }, { w:'KELLNER', m:'waiter' },
      { w:'METZGER', m:'butcher' }, { w:'FISCHER', m:'fisherman' }, { w:'MEISTER', m:'master; champion' }, { w:'PATIENT', m:'patient' },
      { w:'SEKUNDE', m:'second' }, { w:'FEBRUAR', m:'February' }, { w:'OKTOBER', m:'October' }, { w:'UHRZEIT', m:'time (of day)' },
-     { w:'TERMINE', m:'appointments' }, { w:'NEUJAHR', m:'New Year' }, { w:'TELEFON', m:'telephone' }, { w:'TOASTER', m:'toaster' },
-     { w:'LATERNE', m:'lantern; street lamp' }, { w:'TREPPEN', m:'stairs' }, { w:'PFLANZE', m:'plant' }, { w:'FLEISCH', m:'meat' },
-     { w:'PFEFFER', m:'pepper' }, { w:'ZWIEBEL', m:'onion' }, { w:'TOMATEN', m:'tomatoes' }, { w:'KAROTTE', m:'carrot' },
-     { w:'BANANEN', m:'bananas' }, { w:'ZITRONE', m:'lemon' }, { w:'PFLAUME', m:'plum' }, { w:'KIRSCHE', m:'cherry' },
-     { w:'TRAUBEN', m:'grapes' }, { w:'AVOCADO', m:'avocado' }, { w:'OMELETT', m:'omelette' }, { w:'EINTOPF', m:'stew' },
+     { w:'NEUJAHR', m:'New Year' }, { w:'TELEFON', m:'telephone' }, { w:'TOASTER', m:'toaster' },
+     { w:'LATERNE', m:'lantern; street lamp' }, { w:'PFLANZE', m:'plant' }, { w:'FLEISCH', m:'meat' },
+     { w:'PFEFFER', m:'pepper' }, { w:'ZWIEBEL', m:'onion' }, { w:'KAROTTE', m:'carrot' },
+     { w:'ZITRONE', m:'lemon' }, { w:'PFLAUME', m:'plum' }, { w:'KIRSCHE', m:'cherry' },
+     { w:'AVOCADO', m:'avocado' }, { w:'OMELETT', m:'omelette' }, { w:'EINTOPF', m:'stew' },
      { w:'AUFLAUF', m:'casserole' }, { w:'GERICHT', m:'dish; court' }, { w:'BEILAGE', m:'side dish' }, { w:'DESSERT', m:'dessert' },
-     { w:'SCHEIBE', m:'slice; disc' }, { w:'BREZELN', m:'pretzels' }, { w:'WAFFELN', m:'waffles' }, { w:'STADION', m:'stadium' },
+     { w:'SCHEIBE', m:'slice; disc' }, { w:'STADION', m:'stadium' },
      { w:'KAPELLE', m:'chapel' }, { w:'DENKMAL', m:'monument' }, { w:'SCHEUNE', m:'barn' }, { w:'GALERIE', m:'gallery' },
      { w:'FUSSWEG', m:'footpath' }, { w:'STRECKE', m:'route; distance' }, { w:'ANTWORT', m:'answer' }, { w:'MEINUNG', m:'opinion' },
      { w:'ZUKUNFT', m:'future' }, { w:'AUFGABE', m:'task' }, { w:'ANGEBOT', m:'offer' }, { w:'PROJEKT', m:'project' },
      { w:'PRODUKT', m:'product' }, { w:'ENERGIE', m:'energy' }, { w:'SCHMERZ', m:'pain' }, { w:'FRIEDEN', m:'peace' },
      { w:'PRÜFUNG', m:'exam' }, { w:'ZEUGNIS', m:'report card' }, { w:'STUDIUM', m:'studies' }, { w:'MEDIZIN', m:'medicine' },
-     { w:'VERBAND', m:'bandage' }, { w:'EINKAUF', m:'purchase; shopping' }, { w:'STEUERN', m:'taxes' }, { w:'VERLUST', m:'loss' },
+     { w:'VERBAND', m:'bandage' }, { w:'EINKAUF', m:'purchase; shopping' }, { w:'VERLUST', m:'loss' },
      { w:'URKUNDE', m:'certificate' }, { w:'WELTALL', m:'outer space' }, { w:'GALAXIE', m:'galaxy' }, { w:'UNKRAUT', m:'weeds' },
-     { w:'STRAUCH', m:'shrub' }, { w:'BLÄTTER', m:'leaves' }, { w:'WURZELN', m:'roots' }, { w:'SCHAUER', m:'shower' }, { w:'FLOCKEN', m:'flakes' },
-     { w:'KLIPPEN', m:'cliffs' }, { w:'SCHIFFE', m:'ships' }, { w:'GESTEIN', m:'rock' }, { w:'KLEIDER', m:'dresses' }, { w:'STIEFEL', m:'boots' },
+     { w:'STRAUCH', m:'shrub' }, { w:'SCHAUER', m:'shower' },
+     { w:'GESTEIN', m:'rock' }, { w:'STIEFEL', m:'boots' },
      { w:'DIAMANT', m:'diamond' }, { w:'ARMBAND', m:'bracelet' }, { w:'OHRRING', m:'earring' }, { w:'ARMREIF', m:'bangle' }, { w:'GITARRE', m:'guitar' },
      { w:'KLAVIER', m:'piano' }, { w:'TROMMEL', m:'drum' }, { w:'MELODIE', m:'melody' }, { w:'GEMÄLDE', m:'painting' }, { w:'DICHTER', m:'poet' },
      { w:'SCHRIFT', m:'writing' }, { w:'POLIZEI', m:'police' }, { w:'SCHWERT', m:'sword' }, { w:'ADRESSE', m:'address' }, { w:'MESSING', m:'brass' },
      { w:'PLASTIK', m:'plastic' }, { w:'SCHWEIN', m:'pig' }, { w:'TURNIER', m:'tournament' }, { w:'WECHSEL', m:'change' },
-     { w:'SCHEINE', m:'banknotes' }, { w:'KLAUSUR', m:'written exam' }, { w:'STUDENT', m:'student' }
+     { w:'KLAUSUR', m:'written exam' }, { w:'STUDENT', m:'student' },
+     { w:'MÄDCHEN', m:'girl' }, { w:'EHEMANN', m:'husband' }, { w:'EHEFRAU', m:'wife' },
+    { w:'TOCHTER', m:'daughter' }, { w:'BILDUNG', m:'education' }, { w:'BERICHT', m:'report' },
+    { w:'BEITRAG', m:'contribution' }, { w:'AUSGANG', m:'exit' }, { w:'AUSFLUG', m:'excursion; trip' },
+    { w:'VERKEHR', m:'traffic' }, { w:'VORHANG', m:'curtain' }, { w:'TEPPICH', m:'carpet' },
+    { w:'GEWICHT', m:'weight' }, { w:'ORDNUNG', m:'order' }, { w:'ELEFANT', m:'elephant' },
+    { w:'EINHORN', m:'unicorn' }, { w:'DRACHEN', m:'dragon; kite' }, { w:'KAPITÄN', m:'captain' },
+    { w:'KAPITEL', m:'chapter' }, { w:'KATALOG', m:'catalog' }, { w:'KLINGEL', m:'doorbell' },
+    { w:'KOLLEGE', m:'colleague' }, { w:'KOMPOTT', m:'compote' }, { w:'LEITUNG', m:'pipe; line; management' },
+    { w:'MUSIKER', m:'musician' }, { w:'PFARRER', m:'priest; pastor' }, { w:'PINGUIN', m:'penguin' },
+    { w:'PRALINE', m:'praline; chocolate' }, { w:'RECHNER', m:'computer; calculator' }, { w:'GIRAFFE', m:'giraffe' },
+    { w:'WALROSS', m:'walrus' }, { w:'NASHORN', m:'rhinoceros' }, { w:'LEOPARD', m:'leopard' },
+    { w:'PANTHER', m:'panther' }, { w:'ZENTRUM', m:'center' }, { w:'PERIODE', m:'period' },
+    { w:'DIALEKT', m:'dialect' }, { w:'ZEICHEN', m:'sign; character' }, { w:'GESTALT', m:'shape; figure' },
+    { w:'MALEREI', m:'painting (art form)' }, { w:'URSACHE', m:'cause' }, { w:'WIRKUNG', m:'effect' },
+    { w:'ZWEIFEL', m:'doubt' }, { w:'KLOSTER', m:'monastery' }, { w:'KNOCHEN', m:'bone' },
+    { w:'KRIEGER', m:'warrior' }, { w:'GEHÄUSE', m:'housing; case' }, { w:'GELÄNDE', m:'terrain' },
+    { w:'BISKUIT', m:'biscuit; sponge cake' }, { w:'EIGNUNG', m:'aptitude; suitability' },
+    { w:'MALERIN', m:'female painter' }, { w:'JUPITER', m:'Jupiter' }, { w:'JOGHURT', m:'yogurt' },
+    { w:'SCHNAPS', m:'schnapps' }, { w:'WALNUSS', m:'walnut' }, { w:'ERDNUSS', m:'peanut' },
+    { w:'PAPRIKA', m:'paprika; bell pepper' }, { w:'SPARGEL', m:'asparagus' }, { w:'FENCHEL', m:'fennel' },
+    { w:'THYMIAN', m:'thyme' }, { w:'GARDINE', m:'curtain' }, { w:'LEUCHTE', m:'light; lamp' },
+    { w:'PARKETT', m:'parquet' }, { w:'STECKER', m:'plug' }, { w:'DRUCKER', m:'printer' },
+    { w:'STEMPEL', m:'stamp; stamping device' }, { w:'STRAUSS', m:'bouquet; ostrich' }, { w:'GESTECK', m:'flower arrangement' },
+    { w:'SENDUNG', m:'broadcast; shipment' }, { w:'VERSAND', m:'shipping; dispatch' }, { w:'ANSICHT', m:'view; opinion' },
+    { w:'SCHMUTZ', m:'dirt' }, { w:'WIRSING', m:'savoy cabbage' }, { w:'ROTKOHL', m:'red cabbage' },
+    { w:'STRUDEL', m:'strudel' }
   ],
   8: [
     { w:'WÖRTERBUCH', m:'dictionary' },  { w:'GEBURTSTAG', m:'birthday' }, { w:'FREUNDSCHAFT', m:'friendship' },  { w:'GESCHÄFT', m:'business' },
     { w:'LEBENSMITTEL', m:'food' },  { w:'ARBEITSZIMMER', m:'study/office' },  { w:'WOHNZIMMER', m:'living room' },  { w:'SCHULKIND', m:'schoolchild' },
     { w:'GESCHWISTER', m:'siblings' },  { w:'GEBÄUDE', m:'building' },  { w:'KÜCHENGERÄT', m:'kitchen appliance' },  { w:'WASCHMASCHINE', m:'washing machine' },
-    { w:'KÜHLschrank', m:'refrigerator' },  { w:'FERNSEHER', m:'television' },  { w:'COMPUTER', m:'computer' },  { w:'HANDSCHUH', m:'glove' },
+    { w:'KÜHLSCHRANK', m:'refrigerator' },  { w:'FERNSEHER', m:'television' },  { w:'COMPUTER', m:'computer' },  { w:'HANDSCHUH', m:'glove' },
     { w:'SCHULTER', m:'shoulder' },  { w:'GEMEINDE', m:'community' },  { w:'BEVÖLKERUNG', m:'population' },  { w:'REGENWALD', m:'rainforest' },
-    { w: 'AUTOMOBIL', m: 'automobile' }, { w: 'BAHNHOF', m: 'train station' },  { w: 'BIBLIOTHEK', m: 'library' },  { w: 'BLUMENTOPF', m: 'flower pot' },
+    { w: 'AUTOMOBIL', m: 'automobile' }, { w: 'BIBLIOTHEK', m: 'library' },  { w: 'BLUMENTOPF', m: 'flower pot' },
     { w: 'BUCHHANDLUNG', m: 'bookstore' },  { w: 'DONNERSTAG', m: 'Thursday' },  { w: 'ELEKTRIZITÄT', m: 'electricity' },  { w: 'FOTOGRAFIE', m: 'photography' },
     { w: 'GEBIRGSZUG', m: 'mountain range' },  { w: 'GEMEINSCHAFT', m: 'community' },  { w: 'GESCHICHTE', m: 'history' },  { w: 'GESUNDHEIT', m: 'health' },
     { w: 'HAUSHALT', m: 'household' },  { w: 'INTERNET', m: 'internet' },  { w: 'KALENDER', m: 'calendar' },  { w: 'KINDERGARTEN', m: 'kindergarten' },
-    { w: 'KONZERT', m: 'concert' },  { w: 'KRANKENHAUS', m: 'hospital' },  { w: 'KÜCHENTISCH', m: 'kitchen table' },  { w: 'LEHRERZIMMER', m: 'teachers\' lounge' },
-    { w: 'MITTWOCH', m: 'Wednesday' },  { w: 'NACHBAR', m: 'neighbor' },  { w: 'OBSTGARTEN', m: 'orchard' },  { w: 'PARKHAUS', m: 'parking garage' },
+    { w: 'KRANKENHAUS', m: 'hospital' },  { w: 'KÜCHENTISCH', m: 'kitchen table' },  { w: 'LEHRERZIMMER', m: 'teachers\' lounge' },
+    { w: 'MITTWOCH', m: 'Wednesday' }, { w: 'OBSTGARTEN', m: 'orchard' },  { w: 'PARKHAUS', m: 'parking garage' },
     { w: 'REISEBÜRO', m: 'travel agency' },  { w: 'SCHULRANZEN', m: 'school backpack' },  { w: 'SCHWIMMBAD', m: 'swimming pool' },  { w: 'SONNENBLUME', m: 'sunflower' },
-    { w: 'SPORTPLATZ', m: 'sports field' },  { w: 'STADION', m: 'stadium' },  { w: 'STRAßENBAHN', m: 'tram' },  { w: 'TELEFON', m: 'telephone' },
-    { w: 'UNTERNEHMEN', m: 'company' },  { w: 'VERKEHRSMITTEL', m: 'means of transport' },  { w: 'WASCHBECKEN', m: 'sink' },  { w: 'WOHNUNG', m: 'apartment' },
-    { w: 'ZEITUNG', m: 'newspaper' },  { w: 'ZIMMERPFLANZE', m: 'houseplant' },  { w: 'ZUCKER', m: 'sugar' },  { w: 'ZUGFAHRAUSWEIS', m: 'train ticket' },  { w: 'ZWIEBEL', m: 'onion' }
+    { w: 'SPORTPLATZ', m: 'sports field' }, { w: 'STRAßENBAHN', m: 'tram' },
+    { w: 'UNTERNEHMEN', m: 'company' },  { w: 'VERKEHRSMITTEL', m: 'means of transport' },  { w: 'WASCHBECKEN', m: 'sink' },
+    { w: 'ZIMMERPFLANZE', m: 'houseplant' },  { w: 'ZUGFAHRAUSWEIS', m: 'train ticket' },  
+    { w: 'ABENTEUER', m: 'adventure' }, { w: 'ABTEILUNG', m: 'department' }, { w: 'ALLERGIE', m: 'allergy' }, { w: 'ALTSTADT', m: 'old town' },
+{ w: 'ANGESTELLTE', m: 'employee' }, { w: 'ANSCHRIFT', m: 'address' }, { w: 'APOTHEKE', m: 'pharmacy' }, { w: 'ARBEITER', m: 'worker' },
+{ w: 'ARBEITSPLATZ', m: 'workplace' }, { w: 'AUSBILDUNG', m: 'vocational training' }, { w: 'AUSSICHT', m: 'view' }, { w: 'AUSSPRACHE', m: 'pronunciation' },
+{ w: 'AUSSTELLUNG', m: 'exhibition' }, { w: 'AUTOBAHN', m: 'highway' }, { w: 'BÄCKEREI', m: 'bakery' }, { w: 'BADEWANNE', m: 'bathtub' },
+{ w: 'BAHNSTEIG', m: 'platform' }, { w: 'BAUCHSCHMERZ', m: 'stomach ache' }, { w: 'BAUMARKT', m: 'hardware store' }, { w: 'BEDIENUNG', m: 'service' },
+{ w: 'BEHANDLUNG', m: 'treatment' }, { w: 'BEISPIEL', m: 'example' }, { w: 'BEKANNTSCHAFT', m: 'acquaintance' }, { w: 'BESCHREIBUNG', m: 'description' },
+{ w: 'BESUCHER', m: 'visitor' }, { w: 'BETTWÄSCHE', m: 'bed linen' }, { w: 'BEWOHNER', m: 'resident' }, { w: 'BILDSCHIRM', m: 'screen' },
+{ w: 'BILDERRAHMEN', m: 'picture frame' }, { w: 'BLUMENSTRAUß', m: 'bouquet' }, { w: 'BOTSCHAFT', m: 'message' }, { w: 'BRATWURST', m: 'fried sausage' },
+{ w: 'BRIEFKASTEN', m: 'mailbox' }, { w: 'BRIEFMARKE', m: 'postage stamp' }, { w: 'BROMBEERE', m: 'blackberry' }, { w: 'BUCHSTABE', m: 'letter (of the alphabet)' },
+{ w: 'BÜCHERREGAL', m: 'bookshelf' }, { w: 'BÜGELEISEN', m: 'clothes iron' }, { w: 'CHAMPIGNON', m: 'mushroom' }, { w: 'DAUERWELLE', m: 'perm (hairstyle)' },
+{ w: 'DIENSTAG', m: 'Tuesday' }, { w: 'DISKUSSION', m: 'discussion' }, { w: 'DOKUMENT', m: 'document' }, { w: 'DOKUMENTATION', m: 'documentary' },
+{ w: 'DOPPELBETT', m: 'double bed' }, { w: 'EICHÖRNCHEN', m: 'squirrel' }, { w: 'EINLADUNG', m: 'invitation' }, { w: 'EINRICHTUNG', m: 'furnishings' },
+{ w: 'EINWOHNER', m: 'inhabitant' }, { w: 'ERDBEERE', m: 'strawberry' }, { w: 'ERFAHRUNG', m: 'experience' }, { w: 'ERGEBNIS', m: 'result' },
+{ w: 'ERKÄLTUNG', m: 'cold (illness)' }, { w: 'ERKLÄRUNG', m: 'explanation' }, { w: 'ERLEBNIS', m: 'experience' }, { w: 'ERZIEHUNG', m: 'upbringing' },
+{ w: 'FANTASIE', m: 'imagination' }, { w: 'FAHRRADWEG', m: 'cycle path' }, { w: 'FAHRSCHULE', m: 'driving school' }, { w: 'FAHRSCHEIN', m: 'ticket (transport)' },
+{ w: 'FAHRSTUHL', m: 'elevator' }, { w: 'FAHRZEUG', m: 'vehicle' }, { w: 'FEIERABEND', m: 'evening after work' }, { w: 'FEIERTAG', m: 'public holiday' },
+{ w: 'FENSTERBANK', m: 'windowsill' }, { w: 'FESTPLATTE', m: 'hard drive' }, { w: 'FEUERWEHR', m: 'fire department' }, { w: 'FLUGHAFEN', m: 'airport' },
+{ w: 'FLUGZEUG', m: 'airplane' }, { w: 'FLÜSSIGKEIT', m: 'liquid' }, { w: 'FRAGEBOGEN', m: 'questionnaire' }, { w: 'FREIZEIT', m: 'free time' },
+{ w: 'FREMDSPRACHE', m: 'foreign language' }, { w: 'FREUNDLICHKEIT', m: 'friendliness' }, { w: 'FRÜHSTÜCK', m: 'breakfast' }, { w: 'FUSSBALL', m: 'soccer' },
+{ w: 'FUßBODEN', m: 'floor' }, { w: 'FUßGÄNGER', m: 'pedestrian' }, { w: 'FUßGÄNGERZONE', m: 'pedestrian zone' }, { w: 'GARTENHAUS', m: 'garden shed' },
+{ w: 'GARTENMÖBEL', m: 'garden furniture' }, { w: 'GARTENTOR', m: 'garden gate' }, { w: 'GARTENZAUN', m: 'garden fence' }, { w: 'GASTFAMILIE', m: 'host family' },
+{ w: 'GASTHAUS', m: 'inn' }, { w: 'GEGENSTAND', m: 'object' }, { w: 'GELDBEUTEL', m: 'wallet' },
+{ w: 'GEMÜSEGARTEN', m: 'vegetable garden' }, { w: 'GENERATION', m: 'generation' }, { w: 'GESCHENK', m: 'gift' }, { w: 'GESELLSCHAFT', m: 'society' },
+{ w: 'GESPRÄCH', m: 'conversation' }, { w: 'GETRÄNKEKARTE', m: 'drinks menu' }, { w: 'GEWISSEN', m: 'conscience' }, { w: 'GEWITTER', m: 'thunderstorm' },
+{ w: 'GEWOHNHEIT', m: 'habit' }, { w: 'GLÜCKWUNSCH', m: 'congratulation' }, { w: 'GROßMUTTER', m: 'grandmother' }, { w: 'GROßVATER', m: 'grandfather' },
+{ w: 'HALBINSEL', m: 'peninsula' }, { w: 'HALTESTELLE', m: 'bus stop' }, { w: 'HANDTUCH', m: 'towel' }, { w: 'HANDBALL', m: 'handball' },
+{ w: 'HAUSAUFGABE', m: 'homework' }, { w: 'HAUSTIER', m: 'pet' }, { w: 'HEIDELBEERE', m: 'blueberry' }, { w: 'HOFFNUNG', m: 'hope' },
+{ w: 'HOCHHAUS', m: 'high-rise building' }, { w: 'HOCHZEIT', m: 'wedding' }, { w: 'HÖFLICHKEIT', m: 'politeness' }, { w: 'JAHRESZEIT', m: 'season' },
+{ w: 'JAHRHUNDERT', m: 'century' }, { w: 'JUGENDHERBERGE', m: 'youth hostel' }, { w: 'JUGENDLICHE', m: 'teenager' }, { w: 'KARTOFFEL', m: 'potato' },
+{ w: 'KAUFHAUS', m: 'department store' }, { w: 'KINDERHEIM', m: 'children\'s home' }, { w: 'KINDERWAGEN', m: 'stroller/pram' }, { w: 'KLASSENZIMMER', m: 'classroom' },
+{ w: 'KLEIDERSCHRANK', m: 'wardrobe' }, { w: 'KLEIDUNG', m: 'clothing' }, { w: 'KOPFHÖRER', m: 'headphones' }, { w: 'KOPFSCHMERZ', m: 'headache' },
+{ w: 'KRAWATTE', m: 'necktie' }, { w: 'KREUZUNG', m: 'intersection' }, { w: 'KROKODIL', m: 'crocodile' }, { w: 'KUGELSCHREIBER', m: 'ballpoint pen' },
+{ w: 'KUNSTWERK', m: 'work of art' }, { w: 'LANDSCHAFT', m: 'landscape' }, { w: 'LANDSTRASSE', m: 'country road' }, { w: 'LAUTSPRECHER', m: 'loudspeaker' },
+{ w: 'LEBENSLAUF', m: 'résumé/CV' }, { w: 'LEHRERIN', m: '(female) teacher' }, { w: 'LEUCHTTURM', m: 'lighthouse' }, { w: 'LIEBLINGSFACH', m: 'favorite subject' },
+{ w: 'LIMONADE', m: 'lemonade' }, { w: 'LITERATUR', m: 'literature' }, { w: 'MATHEMATIK', m: 'mathematics' }, { w: 'MEDIKAMENT', m: 'medication' },
+{ w: 'MINERALWASSER', m: 'mineral water' }, { w: 'MITARBEITER', m: 'colleague' }, { w: 'MITGLIED', m: 'member' }, { w: 'MITTEILUNG', m: 'notice' },
+{ w: 'MITTAGESSEN', m: 'lunch' }, { w: 'MITTAGSPAUSE', m: 'lunch break' }, { w: 'MOTORRAD', m: 'motorcycle' }, { w: 'MUTTERSPRACHE', m: 'native language' },
+{ w: 'NACHBARSCHAFT', m: 'neighborhood' }, { w: 'NACHMITTAG', m: 'afternoon' }, { w: 'NACHRICHT', m: 'message' }, { w: 'PAPIERKORB', m: 'wastepaper basket' },
+{ w: 'PASSAGIER', m: 'passenger' }, { w: 'PASSWORT', m: 'password' }, { w: 'PFIRSICH', m: 'peach' }, { w: 'POSTLEITZAHL', m: 'postal code' },
+{ w: 'RECHNUNG', m: 'bill/invoice' }, { w: 'REGENSCHIRM', m: 'umbrella' }, { w: 'REGIERUNG', m: 'government' }, { w: 'REISEPASS', m: 'passport' },
+{ w: 'REISEZIEL', m: 'travel destination' }, { w: 'RESTAURANT', m: 'restaurant' }, { w: 'RICHTUNG', m: 'direction' }, { w: 'ROLLTREPPE', m: 'escalator' },
+{ w: 'RÜCKENSCHMERZ', m: 'back pain' }, { w: 'SACHBUCH', m: 'non-fiction book' }, { w: 'SCHAUSPIELER', m: 'actor' }, { w: 'SCHAUFENSTER', m: 'display window' },
+{ w: 'SCHLAFZIMMER', m: 'bedroom' }, { w: 'SCHLÜSSEL', m: 'key' }, { w: 'SCHMETTERLING', m: 'butterfly' }, { w: 'SCHOKOLADE', m: 'chocolate' },
+{ w: 'SCHRIFTSTELLER', m: 'writer' }, { w: 'SCHULJAHR', m: 'school year' }, { w: 'SCHULKLASSE', m: 'school class' }, { w: 'SCHWESTER', m: 'nurse' },
+{ w: 'SICHERHEIT', m: 'safety/security' }, { w: 'SONNENAUFGANG', m: 'sunrise' }, { w: 'SONNENBRILLE', m: 'sunglasses' }, { w: 'SONNENSCHEIN', m: 'sunshine' },
+{ w: 'SPEISEKARTE', m: 'menu' }, { w: 'SPIELPLATZ', m: 'playground' }, { w: 'SPIELZEUG', m: 'toys' }, { w: 'SPRACHKURS', m: 'language course' },
+{ w: 'STADTPLAN', m: 'city map' }, { w: 'STAUBSAUGER', m: 'vacuum cleaner' }, { w: 'STECKDOSE', m: 'power socket' }, { w: 'SUPERMARKT', m: 'supermarket' },
+{ w: 'TANKSTELLE', m: 'gas station' }, { w: 'TASCHENLAMPE', m: 'flashlight' }, { w: 'TASCHENTUCH', m: 'handkerchief' }, { w: 'TEMPERATUR', m: 'temperature' },
+{ w: 'TISCHLAMPE', m: 'table lamp' }, { w: 'TOILETTE', m: 'toilet' }, { w: 'TÜRKLINKE', m: 'door handle' }, { w: 'ÜBERSETZUNG', m: 'translation' },
+{ w: 'UMWELTSCHUTZ', m: 'environmental protection' }, { w: 'UNIVERSITÄT', m: 'university' }, { w: 'UNTERHALTUNG', m: 'entertainment' }, { w: 'UNTERKUNFT', m: 'accommodation' },
+{ w: 'VERABREDUNG', m: 'appointment' }, { w: 'VERANTWORTUNG', m: 'responsibility' }, { w: 'VERBINDUNG', m: 'connection' }, { w: 'VERGANGENHEIT', m: 'the past' },
+{ w: 'VERSICHERUNG', m: 'insurance' }, { w: 'VERSPÄTUNG', m: 'delay' }, { w: 'VERSTÄNDNIS', m: 'understanding' }, { w: 'VERWANDTE', m: 'relatives' },
+{ w: 'VOLLEYBALL', m: 'volleyball' }, { w: 'VORLESUNG', m: 'lecture' }, { w: 'VORSTADT', m: 'suburb' }, { w: 'WAHRHEIT', m: 'truth' },
+{ w: 'WANDERUNG', m: 'hike' }, { w: 'WÄSCHEREI', m: 'laundry' }, { w: 'WASSERFALL', m: 'waterfall' }, { w: 'WASSERKOCHER', m: 'kettle' },
+{ w: 'WASSERMELONE', m: 'watermelon' }, { w: 'WEIHNACHTEN', m: 'Christmas' }, { w: 'WEINBERG', m: 'vineyard' }, { w: 'WERKSTATT', m: 'workshop' },
+{ w: 'WETTERBERICHT', m: 'weather report' }, { w: 'WISSENSCHAFT', m: 'science' }, { w: 'WOCHENENDE', m: 'weekend' }, { w: 'WOCHENTAG', m: 'day of the week' },
+{ w: 'WOHNHEIM', m: 'dormitory' }, { w: 'WOLKENKRATZER', m: 'skyscraper' }, { w: 'WORTSCHATZ', m: 'vocabulary' }, { w: 'ZAHNARZT', m: 'dentist' },
+{ w: 'ZAHNPASTA', m: 'toothpaste' }, { w: 'ZAUBERER', m: 'magician' }, { w: 'ZEICHNUNG', m: 'drawing' }, { w: 'ZEITSCHRIFT', m: 'magazine' },
+{ w: 'ZUSCHAUER', m: 'spectator' }, { w: 'ZWILLING', m: 'twin' }
   ],
   13: [ // Added longer words
     { w: 'WORTMEISTER', m: 'word master' },
@@ -145,11 +344,12 @@ const WORDS = {
 };
 // TRIES maps each word length to the number of WRONG guesses the player is
 // allowed before losing the round (e.g., a 6-letter word allows 3 misses).
-const TRIES = { 5:2, 6:3, 7:3, 8:3, 13:4 };
+const TRIES = { 5:3, 6:4, 7:4, 8:4, 13:4 };
 
 // ROWS defines the on-screen keyboard layout, top row to bottom row.
 // It follows the German QWERTZ layout and includes the umlaut keys Ä Ö Ü.
-const ROWS = ['QWERTZUIOPÄÖÜ', 'ASDFGHJKL', 'YXCVBNM'];
+//const ROWS = ['QWERTZUIOPÄÖÜß', 'ASDFGHJKL', 'YXCVBNM'];
+const ROWS = ['QWERTZUIOPÄÖÜ\u00DF', 'ASDFGHJKL', 'YXCVBNM'];
 
 /* ---------- DOM elements ---------- */
 // $ is a shorthand helper: document.querySelector('#id') becomes $('#id').
@@ -161,15 +361,15 @@ const els = {
   start: $('#screen-start'),    // the start/menu screen
   game: $('#screen-game'),      // the main game screen
   tiles: $('#tiles'),           // container holding the letter tiles
-  tilesWrap: $('#tilesWrap'),   // wrapper around the tiles (layout)
+  //tilesWrap: $('#tilesWrap'),   // wrapper around the tiles (layout)
   message: $('#message'),       // status/instruction text line
   stamp: $('#stamp'),           // decorative "stamp" overlay element
   dots: $('#dots'),             // row of dots showing remaining wrong guesses
   lenBadge: $('#lenBadge'),     // badge showing the chosen word length
   keyboard: $('#keyboard'),     // on-screen keyboard container
   result: $('#resultPanel'),    // end-of-round result panel
-  resultWord: $('#resultWord'), // headline inside the result panel
-  resultSub: $('#resultSub'),   // sub-line (score) inside the result panel
+  //resultWord: $('#resultWord'), // headline inside the result panel
+  //resultSub: $('#resultSub'),   // sub-line (score) inside the result panel
   scoreChip: $('#scoreChip'),   // small chip displaying the current score
   soundBtn: $('#soundBtn'),     // sound on/off toggle button
   below: $('#below'),           // area below the board (buttons etc.)
@@ -313,6 +513,10 @@ function buildKeyboard() {
       b.className = 'key';
       b.textContent = L;
       b.dataset.key = L;       // store the letter on the element (data-key="L")
+
+      // 🔍 DEBUG: Log what's actually being created
+      console.log('Creating key:', L, 'Code:', L.charCodeAt(0).toString(16));
+      
       b.addEventListener('click', () => {
         Sound.tick();          // click feedback...
         guess(L);              // ...then process the guess
@@ -592,11 +796,28 @@ function bounceTiles() {
 }
 
 // showResult() displays the end-of-round panel with the outcome and score.
+//function showResult() {
+//  els.resultWord.innerHTML = state.revealed.every(Boolean)
+//    ? `<strong>Correct!</strong>`  // all letters were revealed → win
+//    : `Game over`;                 // ran out of tries → loss
+//  els.resultSub.textContent = `Score: ${score}`;
+//  els.result.hidden = false;
+//}
+
 function showResult() {
-  els.resultWord.innerHTML = state.revealed.every(Boolean)
-    ? `<strong>Correct!</strong>`  // all letters were revealed → win
-    : `Game over`;                 // ran out of tries → loss
-  els.resultSub.textContent = `Score: ${score}`;
+  const resultWord = els.result.querySelector('.result-word');   // ✅ Query from existing element
+  const resultSub = els.result.querySelector('.result-sub');     // ✅ Query from existing element
+  
+  if (resultWord) {
+    resultWord.innerHTML = state.revealed.every(Boolean)
+      ? `<strong>Correct!</strong>`
+      : `Game over`;
+  }
+  
+  if (resultSub) {
+    resultSub.textContent = `Score: ${score}`;
+  }
+  
   els.result.hidden = false;
 }
 
@@ -672,7 +893,9 @@ document.addEventListener('keydown', (e) => {
     const k = e.key.toUpperCase();
     // Accept single letters A–Z plus German umlauts Ä Ö Ü, but ignore
     // combos with Meta/Ctrl/Alt (so browser shortcuts like Ctrl+C still work)
-    if (/^[A-ZÄÖÜ]$/.test(k) && !e.metaKey && !e.ctrlKey && !e.altKey) {
+    //if (/^[A-ZÄÖÜ]$/.test(k) && !e.metaKey && !e.ctrlKey && !e.altKey) {
+    //if (/^[A-ZÄÖÜß]$/.test(k) && !e.metaKey && !e.ctrlKey && !e.altKey) {
+    if (/^[A-ZÄÖÜ\u00DF]$/.test(k) && !e.metaKey && !e.ctrlKey && !e.altKey) {
       if (keyEls[k]) {   // only letters that exist on our virtual keyboard
         Sound.tick();
         guess(k);
